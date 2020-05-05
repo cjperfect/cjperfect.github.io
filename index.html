@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div class="ps-auto container">
+    <div class="inst">
+        <div class="ps-auto panel">
+            <img src="images/logo.png" alt="icon" class="logo" width="150">
+            <h1>How to Play Star Battle.</h1>
+            <p>1. Move the spaceship using the sensible areas in the screen;</p>
+            <p>2. The timer present the time lapsed;</p>
+            <p>3. The fuel counter show the remain fuel;</p>
+            <p>4. During the flight, the spaceship needs to destroy the asteroids and enemy spaceships that are
+                presented in the space;</p>
+            <p>5. You can shoot pressing Space Bar;</p>
+            <p>6. If the spaceship hits a asteroid or another spaceship, you lose 15 points of fuel;</p>
+            <p>7. Enemy spaceship needs 1 shot to be destroyed, you will get 5 points for each enemy destroyed;</p>
+            <p>8. Asteroid needs 2 shots to be destroyed, you will get 10 points for each asteroid destroyed;</p>
+            <p>9. If you destroy a friendly spaceship, you lose 10 points;</p>
+            <p>10. During the flight, the spaceship needs to collect fuel in the space;</p>
+            <p>11. You can pause the game clicking in a button pause, or pressing the letter "p";</p>
+            <p>12. Go beyond all limits;</p>
+            <p>Battle in Space with Star Battle Championship...</p>
+            <div class="btn start-btn">
+                Start Game
+                <div class="ps-auto bubble"></div>
+            </div>
+        </div>
+    </div>
+    <div class="game">
+        <div class="header">
+            <img src="images/logo.png" alt="icon" width="80">
+            <div class="item">
+                <img src="images/timer.png" alt="icon">
+                <span id="time">0</span>
+            </div>
+            <div class="item">
+                <img src="images/score.png" alt="icon">
+                <span id="score">0</span>
+            </div>
+            <div class="item fuelTime">
+                <img src="images/fuel.png" alt="icon">
+                <div class="progress">
+                    <div id="fuel">5</div>
+                </div>
+            </div>
+            <div class="item setting">
+                <img src="images/play.png" alt="icon" class="play">
+                <img src="images/font_add.png" alt="icon" class="font-add">
+                <img src="images/font_reduce.png" alt="icon" class="font-reduce">
+                <img src="images/sound_on.png" alt="icon" class="sound">
+            </div>
+        </div>
+
+        <div class="planet-box">
+            <img src="images/planet1.png" alt="icon" class="planet1">
+            <img src="images/planet2.png" alt="icon" class="planet2">
+            <img src="images/planet3.png" alt="icon" class="planet3">
+            <img src="images/planet4.png" alt="icon" class="planet4">
+            <img src="images/planet5.png" alt="icon" class="planet5">
+        </div>
+        <div class="player"></div>
+        <!--
+                <div class="mine-bullet"></div>
+                <div class="enemy"></div>
+                <div class="enemy-bullet"></div>
+                <div class="aestroid"></div>
+                <div class="fuel"></div>
+                <div class="friend"></div>
+        -->
+    </div>
+    <div class="form">
+        <div class="ps-auto box">
+            <img src="images/logo.png" alt="icon">
+            <p><input type="text" id="username" placeholder="UserName"></p>
+            <div class="btn continue disabled">Continue
+                <div class="ps-auto bubble"></div>
+            </div>
+        </div>
+    </div>
+    <div class="rank">
+        <img src="images/logo.png" alt="" class="logo" width="120">
+        <table>
+            <tr>
+                <td>Position</td>
+                <td>Username</td>
+                <td>Score</td>
+                <td>Time</td>
+            </tr>
+
+        </table>
+        <div class="btn btn-restart">
+            Restart Game
+            <div class="ps-auto bubble"></div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

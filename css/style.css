@@ -1,0 +1,457 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: sour;
+}
+
+@font-face {
+    src: url("../SourceSansPro-BoldItalic.ttf");
+    font-family: sour;
+}
+
+img {
+    display: block;
+}
+
+.ps-auto {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+}
+
+
+.btn {
+    width: 100px;
+    height: 40px;
+    background: #ff4f19;
+    color: white;
+    padding: 5px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    transition: 500ms;
+    display: block;
+    margin: 15px auto;
+}
+
+.bubble {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0;
+    transform: scale(0.6);
+}
+
+.btn:hover {
+    background: #f19e0d;
+}
+
+.btn:hover .bubble {
+    animation: bubbleMove 1s;
+}
+
+@keyframes bubbleMove {
+    50% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+.container {
+    width: 960px;
+    height: 600px;
+    overflow: hidden;
+}
+
+.container > div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #222;
+}
+
+.inst {
+    display: block;
+}
+
+.logo {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    animation: logoMove 1s;
+}
+
+@keyframes logoMove {
+    from {
+        transform: scale(4);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.panel {
+    width: 75%;
+    height: 75%;
+    padding: 5%;
+    color: white;
+}
+
+.panel h2 {
+    color: #ff4f19;
+}
+
+.panel p {
+    line-height: 1.8;
+}
+
+.panel p:nth-of-type(1) {
+    animation: pMove 100ms;
+}
+
+.panel p:nth-of-type(2) {
+    animation: pMove 200ms;
+}
+
+.panel p:nth-of-type(3) {
+    animation: pMove 300ms;
+}
+
+.panel p:nth-of-type(4) {
+    animation: pMove 400ms;
+}
+
+.panel p:nth-of-type(5) {
+    animation: pMove 500ms;
+}
+
+.panel p:nth-of-type(6) {
+    animation: pMove 600ms;
+}
+
+.panel p:nth-of-type(7) {
+    animation: pMove 700ms;
+}
+
+.panel p:nth-of-type(8) {
+    animation: pMove 800ms;
+}
+
+.panel p:nth-of-type(9) {
+    animation: pMove 900ms;
+}
+
+.panel p:nth-of-type(10) {
+    animation: pMove 1000ms;
+}
+
+.panel p:nth-of-type(11) {
+    animation: pMove 1100ms;
+}
+
+.panel p:nth-of-type(12) {
+    animation: pMove 1200ms;
+}
+
+.panel p:nth-of-type(13) {
+    animation: pMove 1300ms;
+}
+
+@keyframes pMove {
+    from {
+        transform: translate(-960px, -600px);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes toLeft {
+    to {
+        transform: translateX(-1200px);
+    }
+}
+
+.game {
+    background: url("../images/background-1.jpg") !important;
+    animation: bgMove 20s linear infinite;
+    color: white;
+    display: none;
+}
+
+@keyframes bgMove {
+    to {
+        background-position: -1200px 0;
+    }
+}
+
+.planet-box {
+    position: absolute;
+    left: 100%;
+    top: 50px;
+}
+
+.planet-box img {
+    filter: grayscale(0.5);
+    display: block;
+    margin-top: 15px;
+}
+
+.planet1 {
+    width: 40px;
+    height: 40px;
+    animation: toLeft 14s linear infinite;
+}
+
+.planet2 {
+    width: 60px;
+    height: 60px;
+    animation: toLeft 12s linear infinite;
+}
+
+.planet3 {
+    width: 120px;
+    height: 120px;
+    animation: toLeft 6s linear infinite;
+}
+
+.planet4 {
+    width: 100px;
+    height: 100px;
+    animation: toLeft 8s linear infinite;
+}
+
+.planet5 {
+    width: 80px;
+    height: 80px;
+    animation: toLeft 10s linear infinite;
+
+}
+
+.header {
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.header .item {
+    height: 40px;
+    position: relative;
+}
+
+.header .item > span {
+    position: absolute;
+    left: 60%;
+    top: 0;
+    line-height: 40px;
+}
+
+.fuelTime {
+    display: flex;
+    align-items: center;
+}
+
+.progress {
+    width: 150px;
+    height: 30px;
+    background: white;
+    border-radius: 30px;
+    margin-left: 5px;
+}
+
+#fuel {
+    width: 75px;
+    height: 30px;
+    background: #ff4f19;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 30px;
+    transition: all 500ms;
+}
+
+.setting {
+    margin-left: 100px;
+    display: flex;
+}
+
+.setting img {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.player {
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    background: url("../images/player.png");
+    animation: playerMove 500ms steps(2) infinite;
+}
+
+@keyframes playerMove {
+    to {
+        background-position: -200px 0;
+    }
+}
+
+.enemy {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 20%;
+    top: 50%;
+    background: url("../images/enemy.png");
+    animation: ship 1s steps(4) infinite, toLeft 6s linear forwards;
+}
+
+.friend {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 30%;
+    top: 30%;
+    background: url("../images/friend.png");
+    animation: ship 1s steps(4) infinite, toLeft 8s linear forwards;
+}
+
+@keyframes ship {
+    to {
+        background-position: -320px 0;
+    }
+}
+
+.aestroid {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 50%;
+    top: 60%;
+    background: url("../images/aetroid.png");
+    background-size: cover;
+    animation: aestroid 9s linear forwards;
+}
+
+@keyframes aestroid {
+    to {
+        transform: translateX(-1200px) rotate(2turn);
+    }
+}
+
+.mine-bullet {
+    width: 40px;
+    height: 10px;
+    background: url("../images/mine-bullet.png");
+    position: absolute;
+    left: 20%;
+    top: 52%;
+    animation: toRight 1s linear forwards;
+}
+
+@keyframes toRight {
+    to {
+        transform: translateX(1200px);
+    }
+}
+
+.enemy-bullet {
+    width: 40px;
+    height: 10px;
+    background: url("../images/enemy-bullet.png");
+    position: absolute;
+    right: 40%;
+    top: 58%;
+    animation: toLeft 1.5s linear forwards;
+
+}
+
+.fuel {
+    width: 40px;
+    height: 40px;
+    background: url("../images/fuel.png");
+    position: absolute;
+    top: 0;
+    animation: fuelMove 6s linear forwards;
+}
+
+@keyframes fuelMove {
+    to {
+        transform: translateY(600px) rotate(2turn);
+    }
+}
+
+.form {
+    display: none;
+}
+
+.form .box {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.disabled {
+    cursor: not-allowed;
+}
+
+.form .box > * {
+    margin-top: 15px;
+}
+
+.form img {
+    animation: logoMove 1s;
+}
+
+.form input {
+    padding: 10px 0;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-bottom: 2px solid white;
+    background: inherit;
+    outline: none;
+    text-align: center;
+}
+
+.rank {
+    background: #222;
+    padding: 10%;
+    box-sizing: border-box;
+    display: none;
+}
+
+.rank table {
+    color: white;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+td, table {
+    border: 1px solid white;
+}
+
+td {
+    height: 30px;
+}
+
+
