@@ -1,0 +1,773 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicon.ico">
+  <link rel="icon" href="/assets/img/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Chen Jiang">
+  <meta name="keywords" content="前端博客,JavaScript,React,Vue">
+  
+    <meta name="description" content="记录一次前端优化企业项目随着部门项目业务功能越来越多，发现打包速度慢、体积较大，想着能否针对 webpack 做优化。 优化打包速度首先要找一个衡量速度的工具，webpack 插件speed-measure-webpack-plugin，可以测量所有 loader 花费的时间。 123456const SpeedMeasurePlugin &#x3D; require(&quot;speed-measure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一次前端优化企业项目">
+<meta property="og:url" content="https://cjperfect.github.io/project/optimization-project/index.html">
+<meta property="og:site_name" content="一个爬坑的Coder">
+<meta property="og:description" content="记录一次前端优化企业项目随着部门项目业务功能越来越多，发现打包速度慢、体积较大，想着能否针对 webpack 做优化。 优化打包速度首先要找一个衡量速度的工具，webpack 插件speed-measure-webpack-plugin，可以测量所有 loader 花费的时间。 123456const SpeedMeasurePlugin &#x3D; require(&quot;speed-measure">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121657862.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121657182.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121653028.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121659611.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121740952.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121747088.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409131148025.png">
+<meta property="og:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409131149057.png">
+<meta property="article:published_time" content="2024-09-12T15:00:46.000Z">
+<meta property="article:modified_time" content="2024-12-20T07:26:11.587Z">
+<meta property="article:author" content="Chen Jiang">
+<meta property="article:tag" content="前端博客,JavaScript,React,Vue">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121657862.png">
+  
+  
+  
+  <title>记录一次前端优化企业项目 - 一个爬坑的Coder</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/assets/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"cjperfect.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"nyX99gOzLDc2BIYkiu5ujPvo-gzGzoHsz","app_key":"P4cVikQJkdJ6nFezYPMclYrl","server_url":"https://nyx99goz.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>一个爬坑的Coder</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="记录一次前端优化企业项目"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-12 15:00" pubdate>
+          2024年9月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">记录一次前端优化企业项目</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="记录一次前端优化企业项目"><a href="#记录一次前端优化企业项目" class="headerlink" title="记录一次前端优化企业项目"></a>记录一次前端优化企业项目</h1><p>随着部门项目业务功能越来越多，发现打包速度慢、体积较大，想着能否针对 webpack 做优化。</p>
+<h2 id="优化打包速度"><a href="#优化打包速度" class="headerlink" title="优化打包速度"></a>优化打包速度</h2><p>首先要找一个衡量速度的工具，webpack 插件<code>speed-measure-webpack-plugin</code>，可以测量所有 loader 花费的时间。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">SpeedMeasurePlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;speed-measure-webpack-plugin&quot;</span>);<br><span class="hljs-keyword">const</span> smp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpeedMeasurePlugin</span>();<br><br><span class="hljs-keyword">return</span> smp.<span class="hljs-title function_">wrap</span>(&#123;<br>  <span class="hljs-comment">// webpack文件返回的配置</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>然后执行<code>yarn build</code>，等待一会出结果。<br><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121657862.png" srcset="/img/loading.gif" lazyload alt="优化loader前打包结果，总计打包时间287s"></p>
+<p>从图中可以看出，<code>babel-loader、less-loader</code> 执行时间较长，另外还有 <code>eslint-loader</code>，由于平时开发中编辑器都开启了 eslint 功能，另外在代码提交的时候有 <code>pre-commit</code> 也会做检测，由于项目过大每次打包都要让<code>eslint-loader</code>全量检测一遍，属实浪费时间性能，因此可以去掉，另外 2 个 loader 执行时间长，可能匹配内容过多，浪费不必要的搜索。</p>
+<h3 id="优化-loader"><a href="#优化-loader" class="headerlink" title="优化 loader"></a>优化 loader</h3><p>从这两个角度出发，首先去掉<code>eslint-loader</code>，然后优化其他 loader 的匹配规则。</p>
+<p>项目中使用的.less、.js、.jsx，在源码中发现：</p>
+<ul>
+<li>存在不必要的 loader，例如 sass-loader 等项目用不到的类型文件，需要去掉。</li>
+<li>匹配了很多不需要匹配的文件后缀名，所以来说其他 loader 匹配文件都是浪费搜索性能的。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 举例</span><br>&#123;<br>  <span class="hljs-attr">rules</span>: [<br>    &#123;<br>      <span class="hljs-comment">// 发现多出loader，都匹配不必要的文件类型，一并去掉</span><br>      <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.(js|jsx)$/</span>, <span class="hljs-comment">// =&gt; 没必要匹配这么多文件, 优化前：(js|mjs|jsx|ts|tsx)，</span><br>      <span class="hljs-attr">loader</span>: <span class="hljs-built_in">require</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;babel-loader&quot;</span>),<br>    &#125;,<br><br>    <span class="hljs-comment">// 类似这种的，可以去掉，因为项目并没有用到scss类型文件</span><br>    &#123;<br>      <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.(scss|sass)$/</span>,<br>      <span class="hljs-attr">loader</span>: <span class="hljs-built_in">require</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;sass-loader&quot;</span>),<br>    &#125;,<br>  ];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121657182.png" srcset="/img/loading.gif" lazyload alt="优化loader后打包结果，打包时间119s"></p>
+<div class="note note-success">
+            <p>时间从 287s 优化到 119s，速度提升了 58%。</p>
+          </div>
+
+<h2 id="优化体积"><a href="#优化体积" class="headerlink" title="优化体积"></a>优化体积</h2><p>首先使用 webpack 插件<code>webpack-bundle-analyzer</code>分析各个包打包后的体积。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">BundleAnalyzerPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;webpack-bundle-analyzer&quot;</span>).<span class="hljs-property">BundleAnalyzerPlugin</span>;<br><br><span class="hljs-comment">// webpack的plugins加入分析插件</span><br>&#123;<br>  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> <span class="hljs-title class_">BundleAnalyzerPlugin</span>(&#123; <span class="hljs-attr">analyzerPort</span>: <span class="hljs-number">9999</span> &#125;)];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>打包后发现第三方库<code>moment、echarts、ant design、lodash</code>体积比较大。</p>
+<ul>
+<li>moment 体积大是因为把本地化内容页打包了。</li>
+<li>Echarts 所有图形都打包了，其实只需要打包项目中用到的图的类型。</li>
+<li>ant design 体积过大，由于时间控件内部采用 moment，应该替换成 dayjs。</li>
+<li>lodash 默认打包了所有功能函数。</li>
+</ul>
+<h3 id="优化-moment"><a href="#优化-moment" class="headerlink" title="优化 moment"></a>优化 moment</h3><p>使用<code>IgnorePlugin</code> 忽略指定目录，<code>moment</code>会将所有本地化内容和核心功能一起打包，可以使用这个插件忽略本地化内容，在使用的时候再引入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-attr">plugins</span>: [<br>    <span class="hljs-comment">//忽略 moment 下的 ./locale 目录</span><br>    <span class="hljs-keyword">new</span> webpack.<span class="hljs-title class_">IgnorePlugin</span>(<span class="hljs-regexp">/^\.\/locale$/</span>, <span class="hljs-regexp">/moment$/</span>),<br>  ];<br>&#125;<br><br><span class="hljs-comment">// 在使用的时候</span><br><span class="hljs-keyword">import</span> moment <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;moment&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;moment/locale/zh-cn&quot;</span>; <span class="hljs-comment">// 手动引入</span><br>moment.<span class="hljs-title function_">locale</span>(<span class="hljs-string">&quot;zh-cn&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>优化前后差别：</p>
+<div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap"><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121653028.png" srcset="/img/loading.gif" lazyload alt="moment优化前"></div><div class="group-image-wrap"><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121659611.png" srcset="/img/loading.gif" lazyload alt="moment优化后"></div></div></div>
+
+<div class="note note-success">
+            <p>从图可以看出优化挺大的，264kb 到 60kb，体积减少了 77%。</p>
+          </div>
+
+<h3 id="优化-Echarts"><a href="#优化-Echarts" class="headerlink" title="优化 Echarts"></a>优化 Echarts</h3><p>用到什么类型图表，就引入什么类型的，没必要所有一并引入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 目前采用的是</span><br><span class="hljs-keyword">import</span> echarts <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;echarts&quot;</span>;<br><br><span class="hljs-comment">// 修改后，目前项目用的饼状图，和线图；按需引入</span><br><span class="hljs-keyword">import</span> echarts <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;echarts/lib/echarts&quot;</span>;<br><span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;echarts/lib/component/title&quot;</span>);<br><span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;echarts/lib/component/tooltip&quot;</span>);<br><span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;echarts/lib/component/legend&quot;</span>);<br><span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;echarts/lib/component/grid&quot;</span>);<br><span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;echarts/lib/chart/pie&quot;</span>);<br><span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;echarts/lib/chart/line&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p><strong>优化前</strong>，由图可以看出打包了所有图表类型<br><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121740952.png" srcset="/img/loading.gif" lazyload alt="echart优化前"></p>
+<p><strong>优化后</strong><br><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409121747088.png" srcset="/img/loading.gif" lazyload alt="echart优化后"></p>
+<div class="note note-success">
+            <p>从 5.35m 优化到 253kb。</p>
+          </div>
+
+<h3 id="优化-ant-design"><a href="#优化-ant-design" class="headerlink" title="优化 ant design"></a>优化 ant design</h3><p>在使用 Time-Picker 等时间控件的时候，默认使用的 moment，体积比较大，参考官网可以替换成 days.js。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ant-design/antd-dayjs-webpack-plugin">官方示例</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">AntdDayjsWebpackPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;antd-dayjs-webpack-plugin&quot;</span>);<br><br><span class="hljs-keyword">const</span> config = &#123;<br>  <span class="hljs-attr">plugins</span>: [<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">AntdDayjsWebpackPlugin</span>(&#123;<br>      <span class="hljs-attr">preset</span>: <span class="hljs-string">&quot;antdv3&quot;</span>,<br>    &#125;),<br>  ],<br>&#125;;<br><br><span class="hljs-comment">// index.js</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;dayjs/locale/zh-cn&quot;</span>;<br>dayjs.<span class="hljs-title function_">locale</span>(<span class="hljs-string">&quot;zh-cn&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>尝试过发现并没有看出 ant design 体积变化差异很大，不过这也是一种优化的方向。</p>
+<h3 id="优化-lodash"><a href="#优化-lodash" class="headerlink" title="优化 lodash"></a>优化 lodash</h3><p>目前采用<code>lodash</code>包，应该需要使用<code>lodash-es</code>模块化版本，支持 tree-shaking，可以减少打包体积。<br>不过目前项目都是用 <code>lodash</code>，并且没有单独使用函数，例如：<code>import cloneDeep from &#39;lodash/cloneDeep&#39;</code>，由于使用地方比较多，也不能每个页面都检查，所以打算采用<code>lodash-webpack-plugin + babel-plugin-lodash</code>两个 webpack 插件。</p>
+<ul>
+<li><code>babel-plugin-lodash</code>可以自动将 lodash 函数按需引入。</li>
+<li><code>webpack-lodash-plugin</code>去掉多余的功能代码，进一步减少体积。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> _ <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;lodash&quot;</span>;<br><span class="hljs-keyword">import</span> &#123; add &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;lodash/fp&quot;</span>;<br><span class="hljs-keyword">const</span> addOne = <span class="hljs-title function_">add</span>(<span class="hljs-number">1</span>);<br>_.<span class="hljs-title function_">map</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], addOne);<br><br><span class="hljs-comment">// 打包后</span><br><span class="hljs-keyword">import</span> _add <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;lodash/fp/add&quot;</span>;<br><span class="hljs-keyword">import</span> _map <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;lodash/map&quot;</span>;<br><span class="hljs-keyword">const</span> addOne = <span class="hljs-title function_">_add</span>(<span class="hljs-number">1</span>);<br><span class="hljs-title function_">_map</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], addOne);<br></code></pre></td></tr></table></figure>
+
+<p><strong>配置 webpack</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// webpack.config.js文件</span><br><span class="hljs-keyword">const</span> <span class="hljs-title class_">LodashModuleReplacementPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;lodash-webpack-plugin&quot;</span>);<br><br><span class="hljs-keyword">const</span> webpackConfig = &#123;<br>  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> <span class="hljs-title class_">LodashModuleReplacementPlugin</span>()],<br>&#125;;<br><br><span class="hljs-comment">// .babelrc文件</span><br>&#123;<br>  <span class="hljs-attr">plugins</span>: [[<span class="hljs-string">&quot;lodash&quot;</span>]];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>优化前后差别：</p>
+<div class="group-image-container"><div class="group-image-row"><div class="group-image-wrap"><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409131148025.png" srcset="/img/loading.gif" lazyload alt="优化前"></div><div class="group-image-wrap"><img src="https://cxkyyds.oss-cn-shenzhen.aliyuncs.com/blog-imgs/202409131149057.png" srcset="/img/loading.gif" lazyload alt="优化后"></div></div></div>
+
+<div class="note note-success">
+            <p>lodash 体积从 97kb 优化到 13kb，缩小了 86%的体积。</p>
+          </div>
+
+<h2 id="代码打包分块"><a href="#代码打包分块" class="headerlink" title="代码打包分块"></a>代码打包分块</h2><p>使用代码分块之前，涉及到两个知识点：</p>
+<ul>
+<li>代码分离（Code Splitting）：动态加载代码，在需要的时候再来加载，例如路由懒加载。</li>
+<li>打包分离（Bundle Splitting）：主要是为更好的缓存，创建更多、更小的文件，可能很多页面共用了某一个模块功能，将其单独打包出来。</li>
+</ul>
+<div class="note note-secondary">
+            <p>分包之前要考虑为什么要分包，能给项目带来什么优势？</p><ul><li>代码分离：如果不用路由懒加载，那就是一开始进入页面就会加载所有业务模块，导致首屏渲染速度很慢。</li><li>打包分离：如果有一个体积很大的文件，只改了少量的代码，浏览器仍然要重新下载整个文件，如果分为两个或多个文件，浏览器只需要下载改动那个文件，其他未改动的部分从浏览器缓存中加载，可以提高加载速度。（所以来说代码分割提高访问速度，是与浏览器缓存息息相关。）</li></ul>
+          </div>
+
+<p><strong>整体思路：</strong>需要怎么拆分，需要把不是每次都用到的依赖拆分出来，让其在使用的时候再根据页面按需加载。只有一个目的，就是要把用的比较少的公共依赖文件分割出来；引用次数较多的模块分割出来，避免每次都要重新加载那一部分代码。</p>
+<p>着手操作：</p>
+<ul>
+<li>将项目框架代码分割，基本每个页面都会用到，例如：React、Ract-dom、React-dom-router、React-redux 等。</li>
+<li>将 Echarts 分割，目前了解到只有几个页面使用了图表，只需要访问指定页面再按需加载即可。</li>
+<li>项目中业务组件，基本都会用到，也需要单独分割出来。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> config = &#123;<br>  <span class="hljs-attr">optimization</span>: &#123;<br>    <span class="hljs-attr">minimize</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">splitChunks</span>: &#123;<br>      <span class="hljs-attr">chunks</span>: <span class="hljs-string">&quot;all&quot;</span>,<br>      <span class="hljs-comment">//all: 不管文件是动态还是非动态载入，统一将文件分离。当页面首次载入会引入所有的包</span><br>      <span class="hljs-comment">//async： 将异步加载的文件分离，首次一般不引入，到需要异步引入的组件才会引入。</span><br>      <span class="hljs-comment">//initial：将异步和非异步的文件分离，如果一个文件被异步引入也被非异步引入，那它会被打包两次（注意和all区别），用于分离页面首次需要加载的包。</span><br><br>      <span class="hljs-attr">minSize</span>: <span class="hljs-number">30000</span>, <span class="hljs-comment">// 文件最小打包体积</span><br>      <span class="hljs-attr">minChunks</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// 文件最少引入次数，引入2次以上就会被打包</span><br><br>      <span class="hljs-comment">// 这里面打包配置，优先级高于外面的</span><br>      <span class="hljs-attr">cacheGroups</span>: &#123;<br>        <span class="hljs-comment">// 项目框架, 一开始就引入所有，因此使用all</span><br>        <span class="hljs-attr">vendors</span>: &#123;<br>          <span class="hljs-attr">chunks</span>: <span class="hljs-string">&quot;all&quot;</span>,<br>          <span class="hljs-attr">test</span>: <span class="hljs-regexp">/(react|react-dom|react-dom-router|react-redux|公司内部框架)/</span>,<br>          <span class="hljs-attr">priority</span>: <span class="hljs-number">100</span>,<br>          <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;vendors&quot;</span>,<br>        &#125;,<br>        <span class="hljs-comment">// echarts只有部分页面使用，需要按需加载，因此需要用async</span><br>        <span class="hljs-attr">echartsVendors</span>: &#123;<br>          <span class="hljs-attr">chunks</span>: <span class="hljs-string">&quot;async&quot;</span>,<br>          <span class="hljs-attr">test</span>: <span class="hljs-regexp">/echarts/</span>,<br>          <span class="hljs-attr">priority</span>: <span class="hljs-number">100</span>,<br>          <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;echartsVendors&quot;</span>,<br>        &#125;,<br>        <span class="hljs-comment">// 其他业务组件</span><br>        <span class="hljs-attr">commons</span>: &#123;<br>          <span class="hljs-attr">chunks</span>: <span class="hljs-string">&quot;all&quot;</span>,<br>          <span class="hljs-attr">test</span>: <span class="hljs-regexp">/(ta-biz|yss-biz)/</span>,<br>          <span class="hljs-attr">minChunks</span>: <span class="hljs-number">2</span>,<br>          <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;commmon&quot;</span>,<br>          <span class="hljs-attr">priority</span>: <span class="hljs-number">90</span>,<br>        &#125;,<br>      &#125;,<br>    &#125;,<br>  &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>打包分割是和浏览器的缓存机制存在联系的，主要是通过浏览器缓存没有变化的资源，提高加载速度。</li>
+<li>开发代码中尽量少用<code>import * from &#39;xxx&#39;</code>，没法进行 tree-shaking，导致打包体积变大。</li>
+<li>对于时间的处理，尽量使用体积更小的 dayjs，而不是体积较大的 moment，如果必须要使用 moment，一定要对本地化配置做处理，减少打包体积。</li>
+<li>对于<code>lodash</code>，尽量使用模块版本的<code>lodash-es</code>，可以利用 tree-shaking，减少打包体积。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">工程化</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/js/js-bigInt/" title="JS大数如何处理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JS大数如何处理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/react/redux-theory/" title="Redux原理分析">
+                        <span class="hidden-mobile">Redux原理分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"nyX99gOzLDc2BIYkiu5ujPvo-gzGzoHsz","appKey":"P4cVikQJkdJ6nFezYPMclYrl","path":"window.location.pathname","placeholder":"hello world","avatar":"monsterid","meta":["nick"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://nyx99goz.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"avatar_cdn":"https://cravatar.cn/avatar/"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>一个爬坑的Coder</span> <i class="iconfont icon-love"></i> <span>前端小菜鸡</span> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
